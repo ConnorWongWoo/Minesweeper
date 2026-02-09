@@ -4,6 +4,8 @@ public class Board {
     private String difficulty;
     private Cell[][] board;
     private boolean complete;
+    private boolean gameOver;
+    private boolean gameRunning;
     private int mineCount;
     private int flagCount;
     private int height;
@@ -19,25 +21,32 @@ public class Board {
         this.height = height;
         this.width = width;
         this.board = new Cell[height][width];
+        this.complete = false;
+        this.gameOver = false;
+        this.gameRunning = false;
 
         Random rand = new Random();
-        if (this.difficulty.equals("EASY")) {
-            // Formula Easy: Random num 10-18% of total area  
-            this.mineCount = (int) (((rand.nextInt(18 - 10 + 1) + 10) / 100) * height * width);
-        }
-        else if (this.difficulty.equals("MEDIUM")) {
-            // Formula Medium: Random num 18-24% of total area  
-            this.mineCount = (int) (((rand.nextInt(24 - 18 + 1) + 18) / 100) * height * width);
+        int min, max;
 
+        if (difficulty.equals("EASY")) {
+            min = 10; max = 18;
+        } 
+        else if (difficulty.equals("MEDIUM")) {
+            min = 18; max = 24;
+        } 
+        else if (difficulty.equals("HARD")) {
+            min = 24; max = 30;
         }
-        else if (this.difficulty.equals("HARD")) {
-            // Formula Hard: Random num 24-30% of total area  
-            this.mineCount = (int) (((rand.nextInt(30 - 24 + 1) + 30) / 100) * height * width);
+         else if (difficulty.equals("EXTREME")) {
+            min = 30; max = 36;
+        } 
+        else {
+            min = 10; max = 18;
         }
-        else if (this.difficulty.equals("EXTREME")) {
-            // Formula Extreme: Random num 30-36% of total area  
-            this.mineCount = (int) (((rand.nextInt(36 - 30 + 1) + 30) / 100) * height * width);
-        }
+
+        double percent = (rand.nextInt(max - min + 1) + min) / 100.0;
+        mineCount = (int) (percent * height * width);
+
         this.flagCount = this.mineCount;
         
         for (int y = 0; y < height; y++) {
@@ -59,7 +68,42 @@ public class Board {
                 this.board[y][x].setMine(true);
                 placed++;
             }
+            else {
+                System.out.println(this.board[y][x].isMine());
+            }
         }
+
+        // Setting nums
+        for (Cell[] y: this.board) {
+            for (Cell x: y) {
+                
+            }
+        }
+    }
+
+    public void displayBoard() {
+        // Upper bounds (visual)
+        for (int i = 0; i < this.width * 2 - 1; i++) {
+            System.out.print("=");
+        }
+        System.out.println("");
+        
+        for (Cell[] y: this.board) {
+            String displayRow = "";
+            for (Cell x: y) {
+                displayRow = displayRow + x + " ";
+            }
+            System.out.println(displayRow);
+        }
+        // Lower bounds (visual)
+        for (int i = 0; i < this.width * 2 - 1; i++) {
+            System.out.print("=");
+        }
+        System.out.println("");
+    }
+    
+    public void setGameRunning(boolean s) {
+        this.gameRunning = s;
     }
 
     public int getFlagCount() {
@@ -72,5 +116,11 @@ public class Board {
 
     public boolean isComplete() {
         return this.complete;
+    }
+    public boolean isGameOver() {
+        return this.gameOver;
+    }
+    public boolean isGameRunning() {
+        return this.gameRunning;
     }
 }

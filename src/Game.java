@@ -1,7 +1,6 @@
 import java.util.Scanner;  
 
 public class Game {
-    private Board board;
     
     public void start() {
         Scanner sc = new Scanner(System.in);
@@ -10,8 +9,23 @@ public class Game {
         System.out.println("Enter the board height");
         int height = sc.nextInt();
         System.out.println("Enter the difficulty | EASY, MEDIUM, HARD, EXTREME");
-        String difficulty = sc.nextLine();
+        String difficulty = sc.next();
         // Board.Difficulty -> EASY, MEDIUM, HARD, EXTREME
-        board = new Board(width, height, difficulty);
+        Board board = new Board(width, height, difficulty);
+    
+        board.displayBoard();
+        board.setGameRunning(true);
+        
+        System.out.println("Enter X coordinate of guess");
+        int x = sc.nextInt();
+        System.out.println("Enter Y coordinate of guess");
+        int y = sc.nextInt();
+        board.populateMines(y, x);
+        board.displayBoard();
+
+        while (board.isGameRunning()) {
+
+        }
+        sc.close();
     }
 }
