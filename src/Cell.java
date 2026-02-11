@@ -20,7 +20,7 @@ public class Cell {
     public void setFlag(boolean f) {
         this.flag = f;
     }
-    public void setTouching(int n) {
+    public void setTouchingMines(int n) {
         this.touchingMines = n;
     }
 
@@ -33,35 +33,27 @@ public class Cell {
     public boolean isFlag() {
         return this.flag;
     }
-    public int countTouching() {
+    public int getTouchingMines() {
         return this.touchingMines;
     }
     public String toString() {
         String textDisplay;
-        if (this.mine) {
+        if (this.reveal) {
+            if (this.mine) {
                 textDisplay = "M"; // Todo - add game over logic
             }
             else {
-                // Todo - add touching mines count
-                textDisplay = "#"; // Empty spot revealed
+               textDisplay = (this.touchingMines > 0) ? (String.valueOf(this.touchingMines)) : ("O"); // Empty spot revealed
             }
-        // if (this.reveal) {
-        //     if (this.mine) {
-        //         textDisplay = "M"; // Todo - add game over logic
-        //     }
-        //     else {
-        //         // Todo - add touching mines count
-        //        textDisplay = "O"; // Empty spot revealed
-        //     }
-        // }
-        // else  {
-        //     if (this.flag) {
-        //             textDisplay = "F"; // Flagged spot
-        //         }
-        //         else {
-        //             textDisplay = "#"; // Empty Spot not revealed
-        //         }
-        // }
+        }
+        else  {
+            if (this.flag) {
+                    textDisplay = "F"; // Flagged spot
+                }
+                else {
+                    textDisplay = "#"; // Empty Spot not revealed
+                }
+        }
 
         return textDisplay;
     }

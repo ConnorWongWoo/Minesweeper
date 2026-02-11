@@ -21,10 +21,16 @@ public class Game {
         System.out.println("Enter Y coordinate of guess");
         int y = sc.nextInt();
         board.populateMines(y, x);
+        board.reveal(y, x);
         board.displayBoard();
 
         while (board.isGameRunning()) {
-
+            System.out.println("Enter X coordinate of guess");
+            x = sc.nextInt();
+            System.out.println("Enter Y coordinate of guess");
+            y = sc.nextInt();
+            board.reveal(y, x);
+            board.displayBoard();
         }
         sc.close();
     }

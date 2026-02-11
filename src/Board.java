@@ -69,14 +69,32 @@ public class Board {
                 placed++;
             }
             else {
-                System.out.println(this.board[y][x].isMine());
+                // DEBUG if mine is stacked
+                // System.out.println(this.board[y][x].isMine());
             }
         }
 
         // Setting nums
-        for (Cell[] y: this.board) {
-            for (Cell x: y) {
-                
+        for (int y = 0; y < this.height; y++) {
+            for (int x = 0; x < this.width; x++) {
+                if (this.board[y][x].isMine()) {
+                    for (int i = -1; i < 1; i++) {
+                        if ((0 <= y+i && y+i <= this.height) && (0 <= x+i && x+i <= this.width))
+                        this.board[y+i][x+i].setTouchingMines(this.board[y+i][x+i].getTouchingMines()+1);
+                    }
+                }
+            }
+        }
+    }
+
+    public void reveal(int i_y, int i_x) {
+        for (int y = i_y - 1; y <= i_y + 1; y++) {
+            for (int x = i_x - 1; x <= i_x + 1; x++) {
+                if ((0 <= y && y <= this.height) && (0 <= x && x <= this.width) && (!this.board[y][x].isMine() || !this.board[y][x].isFlag())) {
+                    this.board[y][x].setReveal(true);
+                 }
+                 else {
+                 }
             }
         }
     }
